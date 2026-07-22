@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La inteligencia artificial en la vida cotidiana</title>
+  <style>
+    *{box-sizing:border-box} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f2f2f2;color:#111;line-height:1.5}.contenedor{width:min(780px,92%);margin:32px auto;background:#fff;border:1px solid #222;padding:30px;box-shadow:0 3px 12px rgba(0,0,0,.12)}h1,h2{margin-top:0}.subtitulo{color:#444}.barra{width:100%;height:10px;background:#ddd;margin:18px 0 24px;border:1px solid #999}.avance{height:100%;background:#222;width:0;transition:width .25s}.opcion{display:block;width:100%;text-align:left;padding:12px 14px;margin:10px 0;border:1px solid #333;background:#fff;color:#111;cursor:pointer;font-size:16px}.opcion:hover{background:#eee}.opcion:disabled{cursor:default}.correcta{background:#dedede;font-weight:bold}.incorrecta{text-decoration:line-through}.retroalimentacion{display:none;margin-top:18px;padding:13px;border-left:5px solid #222;background:#f0f0f0}.boton{border:1px solid #111;background:#111;color:#fff;padding:11px 18px;font-size:16px;cursor:pointer;margin-top:18px}.boton:hover{background:#333}.oculto{display:none}.resultado{font-size:22px;font-weight:bold}footer{margin-top:30px;font-size:13px;color:#555;text-align:center}
+  </style>
+</head>
+<body>
+  <main class="contenedor">
+    <section id="inicio">
+      <h1>La inteligencia artificial en la vida cotidiana</h1>
+      <p class="subtitulo">Actividad interactiva de la Semana 14</p>
+      <p>Este cuestionario contiene 12 preguntas sobre los usos, beneficios, riesgos y formas responsables de utilizar la inteligencia artificial.</p>
+      <p>Lea cada pregunta, seleccione una respuesta y revise la explicación antes de continuar.</p>
+      <button class="boton" onclick="iniciar()">Comenzar actividad</button>
+    </section>
+    <section id="quiz" class="oculto">
+      <p id="contador"></p><div class="barra"><div id="avance" class="avance"></div></div>
+      <h2 id="pregunta"></h2><div id="opciones"></div><div id="retroalimentacion" class="retroalimentacion"></div>
+      <button id="siguiente" class="boton oculto" onclick="siguientePregunta()">Siguiente pregunta</button>
+    </section>
+    <section id="final" class="oculto">
+      <h2>Resultado final</h2><p id="resultado" class="resultado"></p><p id="mensaje"></p>
+      <button class="boton" onclick="reiniciar()">Realizar nuevamente</button>
+    </section>
+    <footer>Actividad académica elaborada por Randy Alberto Villalobos Meneses.</footer>
+  </main>
+<script>
+const preguntas=[
+{pregunta:"¿Cuál opción describe mejor la inteligencia artificial?",opciones:["Una tecnología que ayuda a las computadoras a realizar tareas complejas","Un tipo de conexión a internet","Un programa que solamente sirve para jugar","Una memoria externa para guardar archivos"],correcta:0,explicacion:"La inteligencia artificial permite analizar datos, reconocer patrones y apoyar diferentes tareas."},
+{pregunta:"¿Cuál es un ejemplo de inteligencia artificial en la vida cotidiana?",opciones:["Una libreta de papel","Una calculadora básica sin funciones inteligentes","Una aplicación que recomienda música","Un cable para cargar el teléfono"],correcta:2,explicacion:"Las recomendaciones se generan a partir de preferencias y comportamientos anteriores."},
+{pregunta:"¿Cómo puede ayudar la inteligencia artificial en una aplicación de mapas?",opciones:["Cambiando el color del teléfono","Analizando el tránsito y recomendando rutas","Aumentando el tamaño de la pantalla","Eliminando todas las calles"],correcta:1,explicacion:"El sistema analiza información del tránsito para sugerir una ruta conveniente."},
+{pregunta:"¿Qué hacen las plataformas de series y música con ayuda de la inteligencia artificial?",opciones:["Recomiendan contenidos relacionados con los gustos del usuario","Bloquean automáticamente todos los contenidos","Eliminan la conexión a internet","Cambian la contraseña del usuario"],correcta:0,explicacion:"Estas plataformas utilizan datos de uso para sugerir contenidos parecidos."},
+{pregunta:"¿Cuál es un beneficio de la inteligencia artificial?",opciones:["Hace que toda información sea siempre correcta","Permite automatizar tareas repetitivas","Evita que las personas aprendan","Sustituye todas las decisiones humanas"],correcta:1,explicacion:"La automatización de procesos repetitivos puede ahorrar tiempo."},
+{pregunta:"¿Qué se debe hacer antes de utilizar una respuesta generada por inteligencia artificial?",opciones:["Copiarla inmediatamente","Compartir datos personales","Revisarla y compararla con fuentes confiables","Cambiarla sin leerla"],correcta:2,explicacion:"Las herramientas pueden cometer errores, por lo que es necesario verificar la información."},
+{pregunta:"¿Cuál dato no se debe compartir con una herramienta de inteligencia artificial?",opciones:["Una pregunta general sobre un tema","Una contraseña personal","El nombre de una materia","Una idea para una presentación"],correcta:1,explicacion:"Las contraseñas y otros datos privados deben mantenerse protegidos."},
+{pregunta:"¿La inteligencia artificial siempre brinda respuestas correctas?",opciones:["Sí, nunca se equivoca","Sí, porque conoce todo","No, puede cometer errores o inventar información","No, porque solamente responde números"],correcta:2,explicacion:"Sus respuestas deben revisarse, especialmente cuando el tema es importante."},
+{pregunta:"¿Cómo puede utilizarse la inteligencia artificial en la educación?",opciones:["Como apoyo para practicar y comprender temas","Para evitar estudiar completamente","Para reemplazar a todos los profesores","Para entregar cualquier tarea sin revisarla"],correcta:0,explicacion:"Puede ser una herramienta de apoyo, pero el estudiante debe participar en su propio aprendizaje."},
+{pregunta:"¿Cuál es una forma responsable de utilizar inteligencia artificial?",opciones:["Aceptar toda respuesta sin leerla","Usarla como apoyo y revisar los resultados","Compartir información privada","Dejar que tome todas las decisiones"],correcta:1,explicacion:"El uso responsable requiere criterio propio y verificación."},
+{pregunta:"¿En cuál área puede ayudar a detectar actividades inusuales?",opciones:["En bancos y comercios","Solamente en cuadernos de papel","En un lápiz sin tecnología","En una silla"],correcta:0,explicacion:"Puede analizar transacciones y señalar posibles fraudes."},
+{pregunta:"¿Cuál es la idea más importante sobre el uso de la inteligencia artificial?",opciones:["Debe reemplazar el pensamiento de las personas","Debe utilizarse sin límites","Debe servir como apoyo y usarse con responsabilidad","Solamente puede usarse para entretenimiento"],correcta:2,explicacion:"La tecnología es más útil cuando se combina con el criterio y la responsabilidad de la persona."}
+];let indice=0,puntaje=0;
+function iniciar(){document.getElementById('inicio').classList.add('oculto');document.getElementById('quiz').classList.remove('oculto');mostrarPregunta()}
+function mostrarPregunta(){const a=preguntas[indice];document.getElementById('contador').textContent=`Pregunta ${indice+1} de ${preguntas.length}`;document.getElementById('avance').style.width=`${indice/preguntas.length*100}%`;document.getElementById('pregunta').textContent=a.pregunta;document.getElementById('retroalimentacion').style.display='none';document.getElementById('siguiente').classList.add('oculto');const o=document.getElementById('opciones');o.innerHTML='';a.opciones.forEach((t,p)=>{const b=document.createElement('button');b.className='opcion';b.textContent=`${String.fromCharCode(65+p)}. ${t}`;b.onclick=()=>responder(p);o.appendChild(b)})}
+function responder(s){const a=preguntas[indice],bs=document.querySelectorAll('.opcion');bs.forEach((b,p)=>{b.disabled=true;if(p===a.correcta)b.classList.add('correcta');if(p===s&&s!==a.correcta)b.classList.add('incorrecta')});if(s===a.correcta)puntaje++;const r=document.getElementById('retroalimentacion');r.innerHTML=`<strong>${s===a.correcta?'Respuesta correcta.':'Respuesta incorrecta.'}</strong><br>${a.explicacion}`;r.style.display='block';document.getElementById('siguiente').classList.remove('oculto')}
+function siguientePregunta(){indice++;indice<preguntas.length?mostrarPregunta():finalizar()}
+function finalizar(){document.getElementById('quiz').classList.add('oculto');document.getElementById('final').classList.remove('oculto');const p=Math.round(puntaje/preguntas.length*100);document.getElementById('resultado').textContent=`${puntaje} de ${preguntas.length} respuestas correctas (${p}%).`;document.getElementById('mensaje').textContent=p>=80?'Muy buen resultado. Se comprendieron los principales usos y cuidados de la inteligencia artificial.':p>=60?'Buen esfuerzo. Conviene repasar algunas preguntas y volver a realizar la actividad.':'Es recomendable revisar el tema y repetir el cuestionario para reforzar el aprendizaje.'}
+function reiniciar(){indice=0;puntaje=0;document.getElementById('final').classList.add('oculto');document.getElementById('quiz').classList.remove('oculto');mostrarPregunta()}
+</script>
+</body>
+</html>
