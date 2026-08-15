@@ -1,0 +1,25 @@
+# R
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+
+# R package/build artifacts
+*.Rcheck/
+*.tar.gz
+
+# Environment / secrets
+.env
+.env.*
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Temporary output
+outputs/
+
+# Local datasets
+data/*.csv
